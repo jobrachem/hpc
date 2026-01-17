@@ -4,7 +4,7 @@ This repository is designed to hold reproducible experimentation code for resear
 
 ## Contents
 
-## How to reproduce
+## How to reproduce computations
 
 1. Execute an individual job locally.
 1. Execute all runs of one or more jobs locally.

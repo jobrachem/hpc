@@ -124,3 +124,6 @@ export SBATCH_CLUSTER_ACCOUNT_NAME=username
 
 ## Submit test job
 
+```
+python jobs/001-demo-knitr/hpc/submit.py
+```
