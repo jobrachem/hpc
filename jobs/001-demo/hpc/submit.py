@@ -35,4 +35,9 @@ if __name__ == "__main__":
         jobname=jobdir.name,
     )
 
+    run(
+        [str(basedir / "scripts/check_git_status.sh")],
+        check=True,
+    )
+
     run(["ssh", "-q", "SCC", "bash", "-s"], input=submit, text=True)
