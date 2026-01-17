@@ -1,3 +1,7 @@
+"""
+This get executed locally by the user to submit this job.
+"""
+
 import os
 from pathlib import Path
 from subprocess import run

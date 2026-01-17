@@ -1,3 +1,8 @@
+"""
+This get executed on the remote server. Usually it does not need
+to be touched manually.
+"""
+
 import os
 from pathlib import Path
 

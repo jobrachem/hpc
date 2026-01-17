@@ -4,6 +4,13 @@ This setup file describes how to prepare this repository for parallel runs on th
 
 The steps to go through will usually be the same for other clusters, although the specific commands may differ. If you are working with a cluster that does not conduct resource management via slurm, you will need to make bigger changes to the submission scripts.
 
+## Configure local environment variables
+
+```shell
+# content of ./.env
+REMOTE_REPO_DIR="relative/path/to/this/repo/on/server"
+```
+
 ## SSH into the server
 
 ```
@@ -25,7 +32,7 @@ git clone https://$GITHUB_PAT@github.com/jobrachem/hpc.git
 ```
 
 ```
-cd git
+cd hpc
 ```
 
 ## Ensure that an R installation is available
@@ -103,6 +110,16 @@ You should be absolutely sure that this contains no heavy computation, since, if
 
 ```
 quarto render jobs/001-demo/run.qmd --to ipynb
+```
+
+## Configure environment variables on the server
+
+The `REMOTE_REPO_DIR` environment variable is not required on the
+server. Instead, we need to 
+
+```shell
+# content of ./.dotenv
+export SBATCH_CLUSTER_ACCOUNT_NAME=username
 ```
 
 ## Submit test job

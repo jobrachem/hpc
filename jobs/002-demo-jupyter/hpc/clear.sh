@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Run this to clear the remote directory
+# ATTENTION! DANGER OF DATA LOSS
+# This will remove all log files.
+# If the corresponding line is uncommented, it will
+# even DELETE ALL OUTPUT DATA FROM THE REMOTE SERVER.
+# USE WITH CAUTION!
+# ------------------------------------------------------------------------------
+
 set -euo pipefail
 
 # ==============================================================================
