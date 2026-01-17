@@ -1,7 +1,8 @@
 from pathlib import Path
 from subprocess import run
 
-submit_script_template = """source ~/.bashrc
+submit_script_template = """set -eo pipefail
+source ~/.bashrc
 source ~/.dotenv
 
 cd {remote_repo_dir}
@@ -33,4 +34,4 @@ if __name__ == "__main__":
         jobname=jobdir.name,
     )
 
-    run(["ssh", "-q", "SCC", "-s"], input=submit)
+    run(["ssh", "-q", "SCC", "bash", "-s"], input=submit, text=True)
