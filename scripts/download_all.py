@@ -1,0 +1,9 @@
+from pathlib import Path
+from subprocess import run
+
+if __name__ == "__main__":
+    wd = Path.cwd()
+    jobs = wd / "jobs"
+
+    for dir in jobs.iterdir():
+        run(["bash", str(dir / "hpc" / "download.sh")])
