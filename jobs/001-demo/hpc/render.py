@@ -44,14 +44,16 @@ def render_template(
     output_path.chmod(0o755)
 
 
-TEMPLATE_NAME = "sbatch_template.sh.j2"
+TEMPLATE_NAME = "template.sh.j2"
 SCRIPT_NAME = "sbatch.sh"
 
 
 def render_submit_script(jobdir: Path):
     hpc_dir = jobdir / "hpc"
+    logdir = jobdir / "log"
     finished_dir = jobdir / "finished"
     finished_dir.mkdir(exist_ok=True)
+    logdir.mkdir(exist_ok=True)
 
     params = pd.read_csv(jobdir / "params.csv")
 
@@ -72,7 +74,7 @@ def render_submit_script(jobdir: Path):
         "N_REMAINING": len(remaining_rows),
         "CONDITION_INDICES": "\n".join(remaining_rows),
         "JOBDIR": str(jobdir),
-        "LOG_DIR": str(jobdir / "log"),
+        "LOG_DIR": str(logdir),
         "FINISHED_DIR": str(finished_dir),
         "SBATCH_ACCOUNT": os.environ.get("SBATCH_CLUSTER_ACCOUNT_NAME"),
         "SLURM_STDOUT_DIR": str(jobdir / "slurm-out"),

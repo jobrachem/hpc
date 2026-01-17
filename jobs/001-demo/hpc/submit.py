@@ -11,7 +11,7 @@ git pull
 source .venv/bin/activate
 Rscript -e 'renv::restore()'
 
-python {jobdir}/hpc/render_sbatch.py
+python {jobdir}/hpc/render.py
 
 sbatch --job-name={jobname} {jobdir}/hpc/sbatch.sh
 """
