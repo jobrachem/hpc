@@ -9,9 +9,9 @@ cd {remote_repo_dir}
 git pull
 
 source .venv/bin/activate
-Rscript -e 'renv::status()'
-Rscript -e 'renv::restore()'
-Rscript -e 'renv::status()'
+# Rscript -e 'renv::status()'
+# Rscript -e 'renv::restore()'
+# Rscript -e 'renv::status()'
 
 python {jobdir}/hpc/render.py
 
@@ -34,7 +34,5 @@ if __name__ == "__main__":
         jobdir=str(jobdir.relative_to(basedir)),
         jobname=jobdir.name,
     )
-
-    
 
     run(["ssh", "-q", "SCC", "bash", "-s"], input=submit, text=True)
