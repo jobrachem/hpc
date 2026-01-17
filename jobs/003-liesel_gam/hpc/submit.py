@@ -14,6 +14,7 @@ cd {remote_repo_dir}
 git pull
 
 conda activate r-4.5
+export R_HOME=$HOME/conda/envs/r-4.5/lib/R
 source .venv/bin/activate
 Rscript -e 'renv::status()'
 Rscript -e 'renv::restore()'
