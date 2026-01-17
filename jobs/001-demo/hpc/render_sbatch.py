@@ -51,6 +51,7 @@ SCRIPT_NAME = "sbatch.sh"
 def render_submit_script(jobdir: Path):
     hpc_dir = jobdir / "hpc"
     finished_dir = jobdir / "finished"
+    finished_dir.mkdir(exist_ok=True)
 
     params = pd.read_csv(jobdir / "params.csv")
 
