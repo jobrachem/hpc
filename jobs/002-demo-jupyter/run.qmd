@@ -194,28 +194,6 @@ results["b0_bias"] = b0 - beta_estimated[0]
 results["b1_bias"] = b1 - beta_estimated[1]
 ```
 
-### Run R code
-
-This repository is designed such that you can also run R code, and interface with Python using the `py` object:
-
-```{R}
-library(reticulate) # to make the 'py' object available in R
-
-print(py$PARAMS) # access parameters from Python
-```
-
-You can also access objects from the R environment in Python, using the `r` object.
-
-```{R}
-# R
-r_object <- "test"
-```
-
-```{python}
-# Python
-print(r.r_object)
-```
-
 
 ## Save Results
 
