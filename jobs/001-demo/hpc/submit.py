@@ -35,4 +35,6 @@ if __name__ == "__main__":
         jobname=jobdir.name,
     )
 
+    
+
     run(["ssh", "-q", "SCC", "bash", "-s"], input=submit, text=True)

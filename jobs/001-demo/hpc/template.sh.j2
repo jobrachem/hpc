@@ -45,5 +45,7 @@ quarto render {{JOBDIR}}/run-$JOBROW.qmd \
 
 unlink {{JOBDIR}}/run-$JOBROW.qmd
 
+rm -r _output/{{JOBDIR}}/$JOBROW
+
 # mark done
 : > "{{FINISHED_DIR}}/$JOBROW"
