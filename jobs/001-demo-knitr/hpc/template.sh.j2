@@ -24,7 +24,7 @@ which python
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
 PADDED_JOBROW=$(printf "%04d" "$JOBROW")
-LOGFILE="{{LOG_DIR}}/run-${PADDED_JOBROW}.log"
+LOGFILE="{{LOG_DIR}}/run-${PADDED_JOBROW}-captured.log"
 
 # Optional: skip if already finished
 if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
