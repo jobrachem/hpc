@@ -19,6 +19,7 @@ source .venv/bin/activate
 # Rscript -e 'renv::restore()'
 # Rscript -e 'renv::status()'
 
+export REMOTE_REPO_DIR={remote_repo_dir}
 python {jobdir}/hpc/render.py
 
 sbatch --job-name={jobname} {jobdir}/hpc/sbatch.sh
