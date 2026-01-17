@@ -17,7 +17,6 @@ conda activate r-4.5
 source .venv/bin/activate
 Rscript -e 'renv::status()'
 Rscript -e 'renv::restore()'
-# Rscript -e 'renv::status()'
 
 export REMOTE_REPO_DIR={remote_repo_dir}
 python {jobdir}/hpc/render.py
