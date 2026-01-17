@@ -9,7 +9,9 @@ cd {remote_repo_dir}
 git pull
 
 source .venv/bin/activate
+Rscript -e 'renv::status()'
 Rscript -e 'renv::restore()'
+Rscript -e 'renv::status()'
 
 python {jobdir}/hpc/render.py
 

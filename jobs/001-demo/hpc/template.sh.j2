@@ -35,6 +35,7 @@ fi
 quarto render {{JOBDIR}}/run.qmd \
     --output - \
     --to gfm \
+    --output-dir _output \
     -P JOB_ROW:$JOBROW \
     -P JOB_DIR:{{JOBDIR}} \
     -P JOB_TESTING:False \
