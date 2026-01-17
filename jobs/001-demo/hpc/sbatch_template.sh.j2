@@ -26,7 +26,8 @@ mkdir -p "{{JOBDIR}}/{{SLURM_STDOUT_DIR}}" "{{JOBDIR}}/{{SLURM_STDERR_DIR}}"
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
-LOGFILE="{{LOG_DIR}}/j${JOBROW}.log"
+PADDED_JOBROW=$(printf "%04d" "$JOBROW")
+LOGFILE="{{LOG_DIR}}/j${PADDED_JOBROW}.log"
 
 # Optional: skip if already finished
 if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
