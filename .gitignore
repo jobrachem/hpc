@@ -13,3 +13,4 @@ jobs/*/hpc/sbatch.sh
 .env
 **/*.quarto_ipynb
 */*/slurm-*
+*/*/run-files

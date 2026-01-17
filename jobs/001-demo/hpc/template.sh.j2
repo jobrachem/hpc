@@ -32,7 +32,10 @@ if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
   exit 0
 fi
 
-quarto render {{JOBDIR}}/run.qmd \
+# {out_base} is "out1" or "out2" in the above example
+ln -s {{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
+
+quarto render {{JOBDIR}}/run-$JOBROW.qmd \
     --output - \
     --to gfm \
     --output-dir _output/{{JOBDIR}}/$JOBROW \
@@ -40,6 +43,9 @@ quarto render {{JOBDIR}}/run.qmd \
     -P JOB_DIR:{{JOBDIR}} \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
+
+unlink {{JOBDIR}}/run-$JOBROW.qmd
+
 
 # mark done
 : > "{{FINISHED_DIR}}/$JOBROW"
