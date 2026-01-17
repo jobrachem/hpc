@@ -61,6 +61,9 @@ def render_submit_script(jobdir: Path):
     finished_rows = [int(f.name) for f in finished_dir.iterdir()]
     remaining_rows = [str(i) for i in all_rows if i not in finished_rows]
 
+    if len(remaining_rows) == 0:
+        raise RuntimeError("Nothing to submit: 0 remaining rows.")
+
     context = {
         # ---------------------------------------------
         # Job-specific resource demand
