@@ -15,8 +15,8 @@ git pull
 
 conda activate r-4.5
 source .venv/bin/activate
-# Rscript -e 'renv::status()'
-# Rscript -e 'renv::restore()'
+Rscript -e 'renv::status()'
+Rscript -e 'renv::restore()'
 # Rscript -e 'renv::status()'
 
 python {jobdir}/hpc/render.py
