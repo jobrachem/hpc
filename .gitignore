@@ -1,0 +1,10 @@
+jobs/*/log
+jobs/*/finished
+jobs/*/out
+jobs/*/out-test
+_output/
+.venv/
+.quarto/
+/.quarto/
+out/
+data/
