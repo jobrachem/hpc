@@ -11,3 +11,4 @@ data/
 .vscode
 jobs/*/hpc/sbatch.sh
 .env
+**/*.quarto_ipynb
