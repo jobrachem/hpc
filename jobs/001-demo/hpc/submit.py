@@ -9,7 +9,6 @@ cd {remote_repo_dir}
 git pull
 
 source .venv/bin/activate
-pip install -r requirements.txt
 Rscript -e 'renv::restore()'
 
 python {jobdir}/hpc/render_sbatch.py
