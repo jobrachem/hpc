@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-REMOTE_REPO_DIR = "git/hpc"
+REMOTE_REPO_DIR = os.environ.get("REMOTE_REPO_DIR")
 
 
 def render_template(
