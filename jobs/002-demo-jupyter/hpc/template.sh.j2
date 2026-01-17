@@ -33,6 +33,7 @@ if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
 fi
 
 ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
+trap "unlink {{JOBDIR}}/run-$JOBROW.qmd" EXIT
 
 quarto render {{JOBDIR}}/run-$JOBROW.qmd \
     --output - \
@@ -42,8 +43,6 @@ quarto render {{JOBDIR}}/run-$JOBROW.qmd \
     -P JOB_DIR:{{JOBDIR}} \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
-
-unlink {{JOBDIR}}/run-$JOBROW.qmd
 
 rm -r _output/{{JOBDIR}}/$JOBROW
 
