@@ -83,7 +83,7 @@ print(PARAMS)
 ```{python}
 # | label: create-identifier
 now = datetime.now().strftime("%Y-%m-%d-%H%M")
-JOB_IDENTIFIER = JOB_PATH.name + "-" + str(JOB_ROW) + now
+JOB_IDENTIFIER = JOB_PATH.name + "-" + f"{JOB_ROW:04d}" + "-" + now
 PARAMS["job"] = JOB_PATH.name
 PARAMS["run"] = JOB_IDENTIFIER
 ```
