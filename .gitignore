@@ -8,3 +8,6 @@ _output/
 /.quarto/
 out/
 data/
+.vscode
+jobs/*/hpc/sbatch.sh
+.env
