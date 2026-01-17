@@ -10,6 +10,9 @@ git pull
 source .venv/bin/activate
 python {jobdir}/hpc/render_sbatch.py
 
+pip install -r requirements.txt
+Rscript -e 'renv::restore()'
+
 sbatch --job-name={jobname} {jobdir}/hpc/sbatch.sh
 """
 
