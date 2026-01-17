@@ -43,8 +43,7 @@ quarto render {{JOBDIR}}/run-$JOBROW.qmd \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
 
-# unlink {{JOBDIR}}/run-$JOBROW.qmd
-
+unlink {{JOBDIR}}/run-$JOBROW.qmd
 
 # mark done
 : > "{{FINISHED_DIR}}/$JOBROW"
