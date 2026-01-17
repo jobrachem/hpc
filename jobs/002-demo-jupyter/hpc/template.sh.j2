@@ -35,7 +35,7 @@ fi
 ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
 trap "unlink {{JOBDIR}}/run-$JOBROW.qmd" EXIT
 
-quarto render {{JOBDIR}}/run-$JOBROW.qmd \
+NO_COLOR=1 TERM=dumb quarto render {{JOBDIR}}/run-$JOBROW.qmd \
     --output - \
     --to gfm \
     --output-dir _output/{{JOBDIR}}/$JOBROW \
