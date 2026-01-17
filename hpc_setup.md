@@ -6,12 +6,32 @@ The steps to go through will usually be the same for other clusters, although th
 
 ## Configure local environment variables
 
+First, you should set the environment variable `REMOTE_REPO_DIR` to the 
+*relative* path of this repository on the remote server. It should be relative to
+the home directory. There are many ways to set environment variables. I prefer to keep
+them project-specific, so I use create a `.env` file in the project root directory to
+define the environment variables for this project, and tell my editor (VS Code) to
+make these variables available to the terminal.
+
 ```shell
 # content of ./.env
 REMOTE_REPO_DIR="relative/path/to/this/repo/on/server"
 ```
 
+The VS Code settings are:
+
+```json
+# content of .vscode/settings.json
+{
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.terminal.useEnvFile": true,
+    "code-runner.runInTerminal": true,
+}
+```
+
 ## SSH into the server
+
+
 
 ```
 ssh SCC
