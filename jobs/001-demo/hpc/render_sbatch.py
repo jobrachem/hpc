@@ -74,10 +74,10 @@ def render_submit_script(jobdir: Path):
         "LOG_DIR": str(jobdir / "log"),
         "FINISHED_DIR": str(finished_dir),
         "SBATCH_ACCOUNT": os.environ.get("SBATCH_CLUSTER_ACCOUNT_NAME"),
-        "SLURM_STDOUT_DIR": "slurm-out",
-        "SLURM_STDERR_DIR": "slurm-err",
+        "SLURM_STDOUT_DIR": str(jobdir / "slurm-out"),
+        "SLURM_STDERR_DIR": str(jobdir / "slurm-err"),
         # assumes this script is executed on the server in the right working directory
-        "REMOTE_REPO_DIR": Path.cwd(), 
+        "REMOTE_REPO_DIR": Path.cwd(),
     }
 
     render_template(
