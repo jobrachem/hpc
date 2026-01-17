@@ -89,13 +89,21 @@ Then call
 renv::restore()
 ```
 
-This will download and install all required packages in the R and Python environments.
+This will download and install all required packages in the R and Python environments. 
+
+I sometimes encounter installation problems for individual R packages in this step. Usually they can be solved quickly when copy-pasting the error messages to an LLM.
 
 ## Install Quarto
 
 Follow this guide: https://quarto.org/docs/download/tarball.html
 
+## Render test notebook on the server
 
-## Upload data
+You should be absolutely sure that this contains no heavy computation, since, if you are operating on GWDG HPC, you are most likely currently working on a login node, not a compute node.
+
+```
+quarto render jobs/001-demo/run.qmd --to ipynb
+```
 
 ## Submit test job
+
