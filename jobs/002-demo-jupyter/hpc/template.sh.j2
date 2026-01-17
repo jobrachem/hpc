@@ -1,0 +1,51 @@
+#!/bin/bash
+#SBATCH --partition={{SBATCH_PARTITION}}
+#SBATCH --cpus-per-task={{SBATCH_CPUS_PER_TASK}}
+#SBATCH --mem={{SBATCH_MEM}}
+#SBATCH -A {{SBATCH_ACCOUNT}}
+#SBATCH -t {{SBATCH_TIME}}
+#SBATCH --output={{SLURM_STDOUT_DIR}}/%A_%a.out
+#SBATCH --error={{SLURM_STDERR_DIR}}/%A_%a.err
+#SBATCH --array=1-{{N_REMAINING}}%{{SBATCH_ARRAY_MAX_CONCURRENT}}
+#SBATCH --mail-type=all
+
+# -e: Exit the script immediately if any command returns a non-zero exit status.
+# -o pipefail: A pipeline fails if any command in the pipeline fails, not just the last one.
+set -eo pipefail
+
+source ~/.bashrc
+source ~/.dotenv
+
+cd $HOME/{{REMOTE_REPO_DIR}}
+
+source .venv/bin/activate
+which python
+
+IDX=$SLURM_ARRAY_TASK_ID
+JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
+PADDED_JOBROW=$(printf "%04d" "$JOBROW")
+LOGFILE="{{LOG_DIR}}/run-${PADDED_JOBROW}.log"
+
+# Optional: skip if already finished
+if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
+  echo "Condition $JOBROW already finished. Skipping."
+  exit 0
+fi
+
+ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
+
+quarto render {{JOBDIR}}/run-$JOBROW.qmd \
+    --output - \
+    --to gfm \
+    --output-dir _output/{{JOBDIR}}/$JOBROW \
+    -P JOB_ROW:$JOBROW \
+    -P JOB_DIR:{{JOBDIR}} \
+    -P JOB_TESTING:False \
+    >> $LOGFILE 2>&1
+
+unlink {{JOBDIR}}/run-$JOBROW.qmd
+
+rm -r _output/{{JOBDIR}}/$JOBROW
+
+# mark done
+: > "{{FINISHED_DIR}}/$JOBROW"
