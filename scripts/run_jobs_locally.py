@@ -10,7 +10,6 @@ This file should be executed via the command line::
     python scripts/run_jobs_locally.py
 """
 
-import shutil
 from pathlib import Path
 from subprocess import run
 
@@ -21,6 +20,7 @@ import pandas as pd
 # --------------------------------------------------------------------------------------
 JOB_PREFIXES = ["001"]
 SAVE_RENDERED_NOTEBOOK = False
+TESTING = False
 
 # --------------------------------------------------------------------------------------
 # The following code usually does not need to be touched
@@ -42,15 +42,18 @@ def run_one_job(prefix: str):
             continue
 
         job_row = i
-        output_dir = f"_output/jobs/{job.name}/row{job_row:04d}"
+        # output_dir = f"_output/jobs/{job.name}/run-{job_row:04d}"
+        logfile = f"{job / 'log'}/run-{job_row:04d}.log"
         command = [
             "quarto",
             "render",
             str((job / "run.qmd")),
+            "--output",
+            "-",
             "--to",
-            "ipynb",
-            "--output-dir",
-            output_dir,
+            "gfm",
+            # "--output-dir",
+            # output_dir,
             "-P",
             f"JOB_ROW:{job_row}",
             "-P",
@@ -58,15 +61,12 @@ def run_one_job(prefix: str):
             "-P",
             "JOB_TESTING:False",
         ]
+        if not Path(logfile).exists():
+            Path(logfile).parent.mkdir(exist_ok=True)
+            Path(logfile).touch()
 
-        run(command)
-
-        if not SAVE_RENDERED_NOTEBOOK:
-            print(
-                "Removing rendered output dir (does not affect output saved in the "
-                "notebook manually)."
-            )
-            shutil.rmtree(output_dir)
+        with open(logfile, "a") as log:
+            run(command, stdout=log, stderr=log, check=True)
 
 
 if __name__ == "__main__":
