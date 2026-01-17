@@ -4,7 +4,6 @@ set -euo pipefail
 # ==============================================================================
 # USER CONFIG (update these when you move servers/repos/projects)
 # ==============================================================================
-REMOTE_REPO_DIR="git/hpc"  # Path on the remote machine to the repo root
 
 # Change if your local scripts live elsewhere
 GIT_CHECK_SCRIPT="scripts/check_git_status.sh"

@@ -16,7 +16,7 @@ parent_dir=$(realpath "$PWD")
 # Strip the parent_dir prefix from script_dir
 jobdir="${JOBDIR_ABS#$parent_dir/}"
 
-REMOTE_TARGET_DIR="git/hpc/$jobdir/out"
+REMOTE_TARGET_DIR="$REMOTE_REPO_DIR/$jobdir/out"
 ARCHIVE_NAME="output.tar.gz"
 LOCAL_PARENT_DIR="$jobdir"
 

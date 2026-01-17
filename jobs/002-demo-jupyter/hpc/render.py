@@ -83,7 +83,7 @@ def render_submit_script(jobdir: Path):
         "SLURM_STDOUT_DIR": str(jobdir / "slurm-out"),
         "SLURM_STDERR_DIR": str(jobdir / "slurm-err"),
         # assumes this script is executed on the server in the right working directory
-        "REMOTE_REPO_DIR": "git/hpc",
+        "REMOTE_REPO_DIR": os.environ.get("REMOTE_REPO_DIR"),
     }
 
     render_template(

@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from subprocess import run
 
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     print(jobdir.relative_to(basedir))
 
     submit = submit_script_template.format(
-        remote_repo_dir="~/git/hpc",
+        remote_repo_dir=os.environ.get("REMOTE_REPO_DIR"),
         jobdir=str(jobdir.relative_to(basedir)),
         jobname=jobdir.name,
     )
