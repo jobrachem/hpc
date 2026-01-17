@@ -37,14 +37,14 @@ fi
 echo "Connecting to the server"
 
 ssh -q "$SERVER" <<EOF
-set -eo pipefail
+# set -eo pipefail
 
 cd "$REMOTE_REPO_DIR"
 rm -rv $JOB_DIR_REL/finished
 rm -rv $JOB_DIR_REL/log
 rm -rv $JOB_DIR_REL/slurm-err
 rm -rv $JOB_DIR_REL/slurm-out
-rm -rv $JOB_DIR_REL/out
 rm -rv $JOB_DIR_REL/out-test
+# rm -rv $JOB_DIR_REL/out
 
 EOF
