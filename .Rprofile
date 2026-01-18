@@ -7,6 +7,7 @@ source("renv/activate.R")
 # so what this code does is, it makes the basic library of this conda
 # environment available after initializing renv.
 # if I were not using renv here, this would probably not be necessary.
+# this should probably be moved to the template.sh.j2
 hpc_lib <- "/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R/library"
 if (dir.exists(hpc_lib)) {
     .libPaths(c(hpc_lib, .libPaths()))
