@@ -22,7 +22,14 @@ conda activate r-4.5
 source .venv/bin/activate
 which python
 
-export R_LIBS_USER="/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R/library"
+# the following is a fix for having the R package arrow available
+# this is a dependency of liesel_gam (through ryp)
+# but I could not install it via CRAN on the server
+# however, it could be installed via conda in the r-4.5 environment
+# so what this code does is, it makes the basic library of this conda
+# environment available.
+# if I were not using renv, this would probably not be necessary.
+export R_LIBS_USER="$HOME/conda/envs/r-4.5/lib/R/library"
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
