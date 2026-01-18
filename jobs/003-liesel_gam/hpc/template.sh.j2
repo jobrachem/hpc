@@ -22,6 +22,8 @@ conda activate r-4.5
 source .venv/bin/activate
 which python
 
+export R_LIBS_USER="/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R/library"
+
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
 PADDED_JOBROW=$(printf "%04d" "$JOBROW")
