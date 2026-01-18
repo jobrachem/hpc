@@ -22,7 +22,7 @@ conda activate r-4.5
 source .venv/bin/activate
 which python
 
-export R_HOME=conda/envs/r-renv/lib/R
+export R_HOME=$HOME/conda/envs/r-4.5/lib/R
 export LD_LIBRARY_PATH="$R_HOME/lib:$LD_LIBRARY_PATH"
 
 # Rscript -e 'renv::status()'
