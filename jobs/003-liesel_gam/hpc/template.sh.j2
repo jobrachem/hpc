@@ -18,6 +18,7 @@ source ~/.dotenv
 
 cd $HOME/{{REMOTE_REPO_DIR}}
 
+conda activate r-4.5
 source .venv/bin/activate
 which python
 
@@ -35,9 +36,9 @@ fi
 ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
 trap "unlink {{JOBDIR}}/run-$JOBROW.qmd" EXIT
 
-export R_HOME=/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R
-Rscript -e "renv::restore()"
-Rscript -e "renv::status()"
+# export R_HOME=/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R
+# Rscript -e "renv::restore()"
+# Rscript -e "renv::status()"
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
