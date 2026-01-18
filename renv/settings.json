@@ -1,8 +1,6 @@
 {
     "bioconductor.version": null,
-    "external.libraries": [
-        "/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R/library"
-    ],
+    "external.libraries": [],
     "ignored.packages": [],
     "package.dependency.fields": [
         "Imports",
