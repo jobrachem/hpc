@@ -24,7 +24,9 @@ import pandas as pd
 # --------------------------------------------------------------------------------------
 # Update your settings here
 # --------------------------------------------------------------------------------------
-JOB_PREFIXES = ["001"]
+JOB_PREFIXES = [
+    "001",
+]
 SAVE_RENDERED_NOTEBOOK = False
 TESTING = False
 
