@@ -94,11 +94,12 @@ conda activate r-4.5
 ```
 
 ```
-conda install -c conda-forge zlib r-arrow r-svglite
+conda install -c conda-forge zlib r-arrow r-svglite r-mgcv
 ```
 
 - zlib may need to be installed for some R dependencies to work
 - arrow and svglite are dependencies of the Python library `ryp`
+- mgcv is a dependency of liesel_gam
 
 ## Prepare R and Python environments
 
