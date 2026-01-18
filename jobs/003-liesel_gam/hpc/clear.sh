@@ -11,10 +11,27 @@
 
 set -euo pipefail
 
+# ------------------------------------------------------------------------------
+# Flags
+# ------------------------------------------------------------------------------
+
+DELETE_OUT=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --delete-out)
+      DELETE_OUT=true
+      ;;
+    *)
+      echo "Unknown argument: $arg" >&2
+      exit 1
+      ;;
+  esac
+done
+
 # ==============================================================================
 # USER CONFIG (update these when you move servers/repos/projects)
 # ==============================================================================
-
 # Change if your local scripts live elsewhere
 GIT_CHECK_SCRIPT="scripts/check_git_status.sh"
 
@@ -54,6 +71,12 @@ rm -rv $JOB_DIR_REL/log
 rm -rv $JOB_DIR_REL/slurm-err
 rm -rv $JOB_DIR_REL/slurm-out
 rm -rv $JOB_DIR_REL/out-test
-# rm -rv $JOB_DIR_REL/out
+
+if [ "$DELETE_OUT" = true ]; then
+  echo "WARNING: Deleting $JOB_DIR_REL/out"
+  rm -rv $JOB_DIR_REL/out
+else
+  echo "Keeping $JOB_DIR_REL/out (use --delete-out to remove)"
+fi
 
 EOF

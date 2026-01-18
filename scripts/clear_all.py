@@ -6,4 +6,10 @@ if __name__ == "__main__":
     jobs = wd / "jobs"
 
     for dir in jobs.iterdir():
-        run(["bash", str(dir / "hpc" / "clear.sh")])
+        run(
+            [
+                "bash",
+                str(dir / "hpc" / "clear.sh"),
+                "--delete-out",  # uncomment to delete out directories
+            ]
+        )
