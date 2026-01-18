@@ -22,12 +22,36 @@ conda activate r-4.5
 source .venv/bin/activate
 which python
 
-export R_HOME=$HOME/conda/envs/r-4.5/lib/R
+echo "=== DEBUG: Shell executables ==="
+which conda || true
+which R || true
+which Rscript || true
+which python || true
+python -V || true
+
+echo "=== DEBUG: Conda prefix / R_HOME ==="
+echo "CONDA_PREFIX=$CONDA_PREFIX"
+echo "R_HOME=$R_HOME"
+
+echo "=== DEBUG: What does this R see? ==="
+Rscript -e 'cat("R.home(): ", R.home(), "\n"); cat("libPaths:\n"); print(.libPaths()); cat("has svglite? ", requireNamespace("svglite", quietly=TRUE), "\n")' || true
+
+echo "=== DEBUG: What does Python think R is? ==="
+python - <<'PY'
+import os, sys
+print("sys.executable:", sys.executable)
+print("R_HOME env:", os.environ.get("R_HOME"))
+try:
+    import ryp
+except Exception as e:
+    print("ryp import failed:", repr(e))
+PY
+
+export R_HOME="$(R RHOME)"
 export LD_LIBRARY_PATH="$R_HOME/lib:$LD_LIBRARY_PATH"
 
-# Rscript -e 'renv::status()'
-# Rscript -e 'renv::restore()'
-# Rscript -e "install.packages(c('svglite', 'arrow'))"
+echo $R_HOME
+echo $LD_LIBRARY_PATH
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
@@ -42,10 +66,6 @@ fi
 
 ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
 trap "unlink {{JOBDIR}}/run-$JOBROW.qmd" EXIT
-
-# export R_HOME=/mnt/vast-standard/home/brachem1/u18549/conda/envs/r-4.5/lib/R
-# Rscript -e "renv::restore()"
-# Rscript -e "renv::status()"
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
