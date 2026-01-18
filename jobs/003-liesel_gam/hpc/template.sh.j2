@@ -24,7 +24,7 @@ which python
 
 Rscript -e 'renv::status()'
 Rscript -e 'renv::restore()'
-Rscript -e "install.packages(c('svglite', 'arrow')"
+Rscript -e "install.packages(c('svglite', 'arrow'))"
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
