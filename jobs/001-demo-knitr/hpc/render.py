@@ -3,6 +3,7 @@ This get executed on the remote server. Usually it does not need
 to be touched manually.
 """
 
+import json
 import os
 from pathlib import Path
 
@@ -69,14 +70,10 @@ def render_submit_script(jobdir: Path):
     if len(remaining_rows) == 0:
         raise RuntimeError("Nothing to submit: 0 remaining rows.")
 
-    context = {
-        # ---------------------------------------------
-        # Job-specific resource demand
-        "SBATCH_PARTITION": "scc-cpu",
-        "SBATCH_CPUS_PER_TASK": 1,
-        "SBATCH_MEM": "4G",
-        "SBATCH_TIME": "01:00:00",
-        "SBATCH_ARRAY_MAX_CONCURRENT": 10,
+    with open(jobdir / "resources.json", "r", encoding="utf-8") as f:
+        resources = json.load(f)
+
+    context = resources | {
         # ---------------------------------------------
         # constant or automatically inferred settings
         "N_REMAINING": len(remaining_rows),
