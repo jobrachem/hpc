@@ -1,5 +1,5 @@
 {
-    "SBATCH_PARTITION": "scc-cpu",
+    "SBATCH_PARTITION": "medium",
     "SBATCH_CPUS_PER_TASK": 1,
     "SBATCH_MEM": "4G",
     "SBATCH_TIME": "01:00:00",
