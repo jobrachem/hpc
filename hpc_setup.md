@@ -183,7 +183,7 @@ HPC_PROJECT_ACCOUNT_NAME="<project_account_name>"
 
 ### Why is R required (even for pure Python projects)?
 
-This respository is intended to support projects that rely on R and Python, and even
+This repository is intended to support projects that rely on R and Python, and even
 projects that mix R and Python in Quarto notebooks. To keep dependency management of
 R and Python packages, it defaults to using the R package 
 [`renv`](https://rstudio.github.io/renv/). So if you are directly following the workflow
@@ -225,7 +225,7 @@ HPC> micromamba activate r-4.5
 
 ### Install some R packages
 
-Next, we install some dependencies. For your particular usecase, it may not be
+Next, we install some dependencies. For your particular use case, it may not be
 necessary to install these, but in the projects I commonly work with, I found these
 dependencies to matter.
 
@@ -280,7 +280,7 @@ achieve the same result, but this should work.
 *Note that installing R packages directly in the `r-4.5` environment should be the
 exception, not the rule. The rule should be to install R packages via `renv`, which
 in this repository is set up to happen automatically. The reason for this is: renv keeps
-the lockfile `renv.lock`, which tracks the exact versions of all packages that are
+the lock file `renv.lock`, which tracks the exact versions of all packages that are
 used in your project. This is immensely helpful for reproducibility.* 
 
 
