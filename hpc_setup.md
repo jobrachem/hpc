@@ -185,7 +185,7 @@ HPC_PROJECT_ACCOUNT_NAME="<project_account_name>"
 
 This repository is intended to support projects that rely on R and Python, and even
 projects that mix R and Python in Quarto notebooks. To keep dependency management of
-R and Python packages, it defaults to using the R package 
+R and Python packages as simple as possible, it defaults to using the R package 
 [`renv`](https://rstudio.github.io/renv/). So if you are directly following the workflow
 of this repository, you need R even for pure Python projects, because the Python 
 dependencies are managed by an R package. If you want to manage your dependencies 
