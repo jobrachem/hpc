@@ -24,9 +24,7 @@ import pandas as pd
 # --------------------------------------------------------------------------------------
 # Update your settings here
 # --------------------------------------------------------------------------------------
-JOB_PREFIXES = [
-    "001",
-]
+JOB_PREFIXES = ["001", "002"]
 SAVE_RENDERED_NOTEBOOK = False
 TESTING = False
 
@@ -52,14 +50,28 @@ def run_one_job(prefix: str):
         job_row = i
         # output_dir = f"_output/jobs/{job.name}/run-{job_row:04d}"
         logfile = f"{job / 'log'}/run-{job_row:04d}.log"
+
+        if (job / "run.qmd").exists():
+            ext = "qmd"
+        elif (job / "run.ipynb").exists():
+            ext = "ipynb"
+        else:
+            raise RuntimeError(f"No run.qmd or run.ipynb found in {job}")
+
+        print(
+            f"Executing {job.name}, run {job_row}. "
+            f"Logs: {job.name}/{Path(logfile).relative_to(job)}"
+        )
+
         command = [
             "quarto",
             "render",
-            str((job / "run.qmd")),
+            str((job / f"run.{ext}")),
             "--output",
             "-",
             "--to",
             "gfm",
+            "--execute",
             # "--output-dir",
             # output_dir,
             "-P",
