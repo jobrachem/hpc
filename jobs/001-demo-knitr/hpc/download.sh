@@ -7,7 +7,7 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 # Variables
-SERVER="SCC"
+SERVER="$HPC_SSH_ALIAS"
 
 # Get the directory containing this script (absolute path)
 SCRIPTDIR_ABS=$(dirname "$0")
@@ -20,7 +20,7 @@ parent_dir=$(realpath "$PWD")
 # Strip the parent_dir prefix from script_dir
 jobdir="${JOBDIR_ABS#$parent_dir/}"
 
-REMOTE_TARGET_DIR="$REMOTE_REPO_DIR/$jobdir/out"
+REMOTE_TARGET_DIR="$HPC_PROJECT_DIR/$jobdir/out"
 ARCHIVE_NAME="output.tar.gz"
 LOCAL_PARENT_DIR="$jobdir"
 

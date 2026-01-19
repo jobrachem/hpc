@@ -1,6 +1,7 @@
 # A Template for Reproducible Experimentation
 
-This repository is designed to hold reproducible experimentation code for research in statistics/machine learning.
+This repository is designed to hold reproducible experimentation code for 
+research in statistics/machine learning.
 
 ## Contents
 

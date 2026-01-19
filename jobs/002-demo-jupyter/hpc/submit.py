@@ -10,7 +10,7 @@ submit_script_template = """set -eo pipefail
 source ~/.bashrc
 source ~/.dotenv
 
-cd {remote_repo_dir}
+cd {hpc_project_dir}
 git pull
 
 conda activate r-4.5
@@ -18,7 +18,7 @@ source .venv/bin/activate
 Rscript -e 'renv::status()'
 Rscript -e 'renv::restore()'
 
-export REMOTE_REPO_DIR={remote_repo_dir}
+export HPC_PROJECT_DIR={hpc_project_dir}
 python {jobdir}/hpc/render.py
 
 sbatch --job-name={jobname} {jobdir}/hpc/sbatch.sh
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     print(jobdir.relative_to(basedir))
 
     submit = submit_script_template.format(
-        remote_repo_dir=os.environ.get("REMOTE_REPO_DIR"),
+        hpc_project_dir=os.environ.get("HPC_PROJECT_DIR"),
         jobdir=str(jobdir.relative_to(basedir)),
         jobname=jobdir.name,
     )
@@ -46,4 +46,8 @@ if __name__ == "__main__":
         check=True,
     )
 
-    run(["ssh", "-q", "SCC", "bash", "-s"], input=submit, text=True)
+    run(
+        ["ssh", "-q", os.environ.get("HPC_SSH_ALIAS"), "bash", "-s"],
+        input=submit,
+        text=True,
+    )

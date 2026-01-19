@@ -9,7 +9,7 @@ from pathlib import Path
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-REMOTE_REPO_DIR = os.environ.get("REMOTE_REPO_DIR")
+HPC_PROJECT_DIR = os.environ.get("HPC_PROJECT_DIR")
 
 
 def render_template(
@@ -84,11 +84,11 @@ def render_submit_script(jobdir: Path):
         "JOBDIR": str(jobdir),
         "LOG_DIR": str(logdir),
         "FINISHED_DIR": str(finished_dir),
-        "SBATCH_ACCOUNT": os.environ.get("SBATCH_CLUSTER_ACCOUNT_NAME"),
+        "SBATCH_ACCOUNT": os.environ.get("HPC_PROJECT_ACCOUNT_NAME"),
         "SLURM_STDOUT_DIR": str(jobdir / "slurm-out"),
         "SLURM_STDERR_DIR": str(jobdir / "slurm-err"),
         # assumes this script is executed on the server in the right working directory
-        "REMOTE_REPO_DIR": "git/hpc",
+        "HPC_PROJECT_DIR": "git/hpc",
     }
 
     render_template(

@@ -16,7 +16,7 @@ set -eo pipefail
 source ~/.bashrc
 source ~/.dotenv
 
-cd $HOME/{{REMOTE_REPO_DIR}}
+cd $HOME/{{HPC_PROJECT_DIR}}
 
 conda activate r-4.5
 source .venv/bin/activate
@@ -33,7 +33,7 @@ if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
   exit 0
 fi
 
-BASE="$HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run"
+BASE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/run"
 
 if [ -f "$BASE.qmd" ]; then
     EXT="qmd"
@@ -44,7 +44,7 @@ else
     exit 1
 fi
 
-ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.$EXT {{JOBDIR}}/run-$JOBROW.$EXT
+ln -s $HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/run.$EXT {{JOBDIR}}/run-$JOBROW.$EXT
 trap "unlink {{JOBDIR}}/run-$JOBROW.$EXT" EXIT
 
 # NO_COLOR and TERM=dumb are just so that the captured _output

@@ -39,7 +39,7 @@ GIT_CHECK_SCRIPT="scripts/check_git_status.sh"
 # STABLE SCRIPT LOGIC (usually leave untouched)
 # ==============================================================================
 
-SERVER="SCC"                 # SSH host / alias
+SERVER="$HPC_SSH_ALIAS"                 # SSH host / alias
 SCRIPT_DIR_ABS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 JOB_DIR="$(realpath "$SCRIPT_DIR_ABS/..")"
 SCRIPT_DIR_REL="${SCRIPT_DIR_ABS#"$PWD"/}"
@@ -65,7 +65,7 @@ echo "Connecting to the server"
 ssh -q "$SERVER" <<EOF
 # set -eo pipefail
 
-cd "$REMOTE_REPO_DIR"
+cd "$HPC_PROJECT_DIR"
 rm -rv $JOB_DIR_REL/finished
 rm -rv $JOB_DIR_REL/log
 rm -rv $JOB_DIR_REL/slurm-err
