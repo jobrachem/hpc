@@ -1,6 +1,6 @@
 # Setup
 
-This setup file describes how to prepare this repository for parallel runs on the High Performance Cluster of the Gesellschaft für Wissenschaftliche Datenverarbeitung (GWD). 
+This setup readme describes how to prepare this repository for parallel runs on the High Performance Cluster of the Gesellschaft für Wissenschaftliche Datenverarbeitung (GWD). 
 
 The steps to go through will usually be the same for other clusters, although the specific commands may differ. If you are working with a cluster that does not conduct resource management via slurm, you will need to make bigger changes to the submission scripts.
 
