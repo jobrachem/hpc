@@ -103,5 +103,21 @@ out |> names()
 for (i in seq_along(out)) {
   out_df <- out[[i]] |> bind_rows()
   df_name <- paste0(names(out)[[i]], ".csv")
-  write_csv(out_df, path(data_dir, df_name))
+  file_name <- path(data_dir, df_name)
+  if (fs::file_exists(file_name)) {
+    choice <- utils::menu(
+      c("Yes", "No"),
+      title = str_glue("{file_name} exists. Do you want to override it?")
+    )
+
+    if (choice == 1) {
+      print("Writing data.")
+      write_csv(out_df, file_name)
+    } else {
+      print("Did not write data.")
+    }
+  } else {
+    print("Writing data.")
+    write_csv(out_df, file_name)
+  }
 }
