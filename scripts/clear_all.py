@@ -6,6 +6,7 @@ if __name__ == "__main__":
     jobs = wd / "jobs"
 
     for dir in jobs.iterdir():
+        print(f"Running script for {dir.name}.")
         run(
             [
                 "bash",
