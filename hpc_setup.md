@@ -390,6 +390,31 @@ HPC.
 The moment has finally arrived: We will submit our first test job from our local project
 directory to the server.
 
+Your local working directory should now be the project directory. If it is not, you can change
+to it:
+
+```shell
+LOCAL> cd ~/projects/hpc
+```
+
+To ensure that your local R and Python environments are in order, let `renv` update
+them:
+
+```shell
+LOCAL> R
+```
+
+This will automatically set up `renv` for this project.
+
+Next, in this R session, you can call `renv::restore()` to download and install the
+R packages listed in `renv.lock` and the Python packages listed in `requirements.txt`.
+
+```r
+LOCAL (R)> renv::restore()
+```
+
+Now we execute the submit script for job `001-demo-knitr`.
+
 ```shell 
 LOCAL> python jobs/001-demo-knitr/hpc/submit.py
 ```
