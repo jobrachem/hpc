@@ -248,7 +248,7 @@ results["b1_bias"] = b1 - beta_estimated[1]
 
 This repository is designed such that you can also run R code, and interface with Python using the `py` object:
 
-```{R}
+```{r}
 library(reticulate) # to make the 'py' object available in R
 
 print(py$PARAMS) # access parameters from Python
@@ -256,7 +256,7 @@ print(py$PARAMS) # access parameters from Python
 
 You can also access objects from the R environment in Python, using the `r` object.
 
-```{R}
+```{r}
 # R
 r_object <- "test"
 ```
