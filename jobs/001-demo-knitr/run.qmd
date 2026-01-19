@@ -6,7 +6,7 @@ format:
     number-sections: true
 engine: knitr
 params:
-    JOB_DIR: "jobs/001-demo"
+    JOB_DIR: NULL
     JOB_ROW: 1
     JOB_TESTING: true
 ---
@@ -16,6 +16,51 @@ changed by a user are written in CAPSLOCK. Only change them if you know what you
 are doing.
 
 ## Setup
+
+### Retrieve default parameters for interactive sessions
+
+While RStudio may insert the default parameters from the yaml header into the
+current session, VS Code and Positron do not do that. The following code block
+creates the params list manually by reading the defaults from the yaml header.
+
+```{r}
+#| label: get-default-params
+
+if (!exists("params")) {
+  # retrieve defaults from this document
+  current_file <- rstudioapi::getActiveDocumentContext()$path
+  file_txt <- readr::read_file(current_file)
+  knitr_params <- knitr::knit_params(file_txt)
+
+  # parse knitr parameters list
+  params <- list()
+  for (param in names(knitr_params)) {
+    if (param == "JOB_DIR") {
+      # special handling for JOB_DIR; default to the parent dir of this file,
+      # relative to the project root
+      current_dir <- fs::path_dir(current_file)
+      base_dir <- fs::path(current_dir, "..", "..") |> fs::path_real()
+      params[["JOB_DIR"]] <- fs::path_rel(current_dir, start = base_dir)
+    } else {
+      params[[param]] <- knitr_params[[param]]$value
+    }
+  }
+}
+```
+
+It is annoying the have to update the default "JOB_DIR" parameter. The following code
+block inserts the current jobdir, if params$JOB_DIR is NULL (which is the default).
+
+```{r}
+#| label: get-jobdir
+if (is.null(params$JOB_DIR)) {
+  current_dir <- knitr::current_input(dir = TRUE) |> fs::path_dir()
+  base_dir <- fs::path(current_dir, "..", "..") |> fs::path_real()
+  JOB_DIR <- fs::path_rel(current_dir, start = base_dir)
+} else {
+  JOB_DIR <- params$JOB_DIR
+}
+```
 
 ### Print Python executable
 
@@ -62,7 +107,7 @@ reduce runtime to make testing easier.
 
 ```{python}
 # | tags: [parameters]
-JOB_DIR: str = r.params["JOB_DIR"]
+JOB_DIR: str = r.JOB_DIR
 JOB_ROW: int = r.params["JOB_ROW"]
 JOB_TESTING: bool = r.params["JOB_TESTING"]
 ```
@@ -136,6 +181,7 @@ logger.setLevel(logging.INFO)
 ```{python}
 logger.info(f"Job started: \t{JOB_IDENTIFIER} ")
 ```
+
 
 ## Model Code
 
