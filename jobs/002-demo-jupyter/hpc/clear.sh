@@ -75,6 +75,7 @@ rm -rv $JOB_DIR_REL/out-test
 if [ "$DELETE_OUT" = true ]; then
   echo "WARNING: Deleting $JOB_DIR_REL/out"
   rm -rv $JOB_DIR_REL/out
+  unlink $JOB_DIR_REL/output.tar.gz
 else
   echo "Keeping $JOB_DIR_REL/out (use --delete-out to remove)"
 fi
