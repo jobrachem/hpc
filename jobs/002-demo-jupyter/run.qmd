@@ -11,6 +11,25 @@ Note: Variables that are general notebook settings that usually do not need to b
 changed by a user are written in CAPSLOCK. Only change them if you know what you
 are doing.
 
+## Parameters code block
+
+This code block usually does not need to be touched. It just extracts the parameters
+passed to the notebook.
+
+The `JOB_TESTING` flag can be used within this notebook to encode decisions that
+reduce runtime to make testing easier.
+
+Note that, while the jobdir can be discovered automatically when using the knitr
+engine, I have not found a way to do that when using the jupyter engine. So this
+part has to be manually adjusted.
+
+```{python}
+# | tags: [parameters]
+JOB_DIR: str = "jobs/002-demo-jupyter"  # <- UPDATE THIS TO YOUR JOBDIR
+JOB_ROW: int = 0
+JOB_TESTING: bool = True
+```
+
 ## Setup
 
 ### Print Python executable
@@ -48,31 +67,18 @@ from datetime import datetime
 import pandas as pd
 ```
 
-### Parameters code block
-
-This code block usually does not need to be touched. It just extracts the parameters
-passed to the notebook.
-
-The `JOB_TESTING` flag can be used within this notebook to encode decisions that
-reduce runtime to make testing easier.
-
-```{python}
-# | tags: [parameters]
-JOB_DIR: str = "jobs/002-demo-jupyter"
-JOB_ROW: int = 0
-JOB_TESTING: bool = True
-```
+### Process parameters
 
 ```{python}
 JOB_PATH = Path(JOB_DIR)
 ```
-
 
 ```{python}
 # | label: load-parameters-dataframe
 PARAMS = pd.read_csv(JOB_PATH / "params.csv").iloc[JOB_ROW, :]
 print(PARAMS)
 ```
+
 
 ### Set identifier
 
