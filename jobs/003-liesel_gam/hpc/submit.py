@@ -47,7 +47,7 @@ if __name__ == "__main__":
     )
 
     run(
-        ["ssh", "-q", "os.environ.get('HPC_SSH_ALIAS')", "bash", "-s"],
+        ["ssh", "-q", os.environ.get("HPC_SSH_ALIAS"), "bash", "-s"],
         input=submit,
         text=True,
     )
