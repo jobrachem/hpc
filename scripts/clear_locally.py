@@ -1,11 +1,12 @@
 import shutil
 from pathlib import Path
 
+JOBS_DIRECTORY: str = "jobs"
 DELETE_OUT = True
 
 if __name__ == "__main__":
     wd = Path.cwd()
-    jobs = wd / "jobs"
+    jobs = wd / JOBS_DIRECTORY
 
     for dir in jobs.iterdir():
         print(f"Clearing {dir}")

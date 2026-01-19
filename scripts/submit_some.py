@@ -5,9 +5,11 @@ SUBMIT = [
     "001",
 ]
 
+JOBS_DIRECTORY: str = "jobs"
+
 if __name__ == "__main__":
     wd = Path.cwd()
-    jobs = wd / "jobs"
+    jobs = wd / JOBS_DIRECTORY
 
     for dir in jobs.iterdir():
         if dir.name[:3] in SUBMIT:

@@ -1,9 +1,11 @@
 library(tidyverse)
 library(fs)
 
-jobsdirs <- path(path_wd(), "jobs") |>
+JOBS_DIRECTORY <- "jobs"
+
+jobsdirs <- path(path_wd(), JOBS_DIRECTORY) |>
   dir_ls()
-data_dir <- path(path_wd(), "data", "out")
+data_dir <- path(path_wd(), "data", "out", JOBS_DIRECTORY)
 data_dir |> dir_create()
 
 

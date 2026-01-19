@@ -27,11 +27,12 @@ import pandas as pd
 JOB_PREFIXES = ["001", "002"]
 SAVE_RENDERED_NOTEBOOK = False
 TESTING = False
+JOBS_DIRECTORY: str = "jobs"
 
 # --------------------------------------------------------------------------------------
 # The following code usually does not need to be touched
 # --------------------------------------------------------------------------------------
-JOBS = Path.cwd() / "jobs"
+JOBS = Path.cwd() / JOBS_DIRECTORY
 
 
 def run_one_job(prefix: str):
