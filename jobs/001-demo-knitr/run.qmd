@@ -7,7 +7,7 @@ format:
 engine: knitr
 params:
     JOB_DIR: NULL
-    JOB_ROW: 1
+    JOB_ROW: 0 # use zero-indexing here!
     JOB_TESTING: true
 ---
 
@@ -47,6 +47,8 @@ if (!exists("params")) {
   }
 }
 ```
+
+### Guess current job dir if JOB_DIR: NULL (default)
 
 It is annoying the have to update the default "JOB_DIR" parameter. The following code
 block inserts the current jobdir, if params$JOB_DIR is NULL (which is the default),
