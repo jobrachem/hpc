@@ -49,7 +49,8 @@ if (!exists("params")) {
 ```
 
 It is annoying the have to update the default "JOB_DIR" parameter. The following code
-block inserts the current jobdir, if params$JOB_DIR is NULL (which is the default).
+block inserts the current jobdir, if params$JOB_DIR is NULL (which is the default),
+so the default does not have to be updated manually.
 
 ```{r}
 #| label: get-jobdir
