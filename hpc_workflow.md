@@ -129,3 +129,8 @@ change the things that need changing.
 - `scripts/run_jobs_locally.py` executes jobs locally in sequence. It contains 
    a list of jobs to be executed that you can (and should) adapt to list all jobs
    that you want to be executed.
+
+## How to customize the submit script
+
+Each jobs has its own submit script in `jobs/001-demo-knitr/hpc/template.sh.j2`.
+If you need to customize it for your job, this is the place to do it.
