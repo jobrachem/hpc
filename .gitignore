@@ -9,8 +9,9 @@ _output/
 out/
 data/
 .vscode
-jobs/*/hpc/sbatch.sh
 .env
+*/*/hpc/sbatch.sh
 **/*.quarto_ipynb
 */*/slurm-*
 */*/run-files
+*/*/output.tar.gz
