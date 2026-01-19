@@ -33,15 +33,27 @@ if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
   exit 0
 fi
 
-ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.qmd {{JOBDIR}}/run-$JOBROW.qmd
-trap "unlink {{JOBDIR}}/run-$JOBROW.qmd" EXIT
+BASE="$HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run"
+
+if [ -f "$BASE.qmd" ]; then
+    EXT="qmd"
+elif [ -f "$BASE.ipynb" ]; then
+    EXT="ipynb"
+else
+    echo "Neither run.qmd nor run.ipynb exists" >&2
+    exit 1
+fi
+
+ln -s $HOME/{{REMOTE_REPO_DIR}}/{{JOBDIR}}/run.$EXT {{JOBDIR}}/run-$JOBROW.$EXT
+trap "unlink {{JOBDIR}}/run-$JOBROW.$EXT" EXIT
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
-NO_COLOR=1 TERM=dumb quarto render {{JOBDIR}}/run-$JOBROW.qmd \
+NO_COLOR=1 TERM=dumb quarto render {{JOBDIR}}/run-$JOBROW.$EXT \
     --output - \
     --to gfm \
     --output-dir _output/{{JOBDIR}}/$JOBROW \
+    --execute \
     -P JOB_ROW:$JOBROW \
     -P JOB_DIR:{{JOBDIR}} \
     -P JOB_TESTING:False \

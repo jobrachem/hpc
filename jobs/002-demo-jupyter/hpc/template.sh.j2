@@ -54,6 +54,7 @@ NO_COLOR=1 TERM=dumb quarto render {{JOBDIR}}/run-$JOBROW.$EXT \
     --output - \
     --to gfm \
     --output-dir _output/{{JOBDIR}}/$JOBROW \
+    --execute \
     -P JOB_ROW:$JOBROW \
     -P JOB_DIR:{{JOBDIR}} \
     -P JOB_TESTING:False \
