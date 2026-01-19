@@ -64,7 +64,7 @@ if (is.null(params$JOB_DIR)) {
 
 ### Print Python executable
 
-This code block prints the Python executable in order to make debugging easier. It should always be the first thing that is run.
+This code block prints the Python executable in order to make debugging easier.
 ```{python}
 # | label: print-python-executable
 import sys
