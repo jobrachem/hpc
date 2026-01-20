@@ -44,7 +44,7 @@ else
     exit 1
 fi
 
-RUNDIR="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}-run-$JOBROW"
+RUNDIR="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}-run-$JOBROW-tmp__"
 mkdir -p $RUNDIR
 mkdir -p "$RUNDIR/log"
 mkdir -p "$RUNDIR/out"
