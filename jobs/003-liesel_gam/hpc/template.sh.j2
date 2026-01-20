@@ -33,6 +33,8 @@ if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
   exit 0
 fi
 
+BASE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/run"
+
 if [ -f "$BASE.qmd" ]; then
     EXT="qmd"
 elif [ -f "$BASE.ipynb" ]; then
