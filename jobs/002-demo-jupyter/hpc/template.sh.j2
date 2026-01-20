@@ -61,7 +61,7 @@ rsync -a \
   --exclude='slurm-out' \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
-LOGFILE="$RUNDIR/run-${PADDED_JOBROW}-captured.log"
+LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
 
 cd $RUNDIR
 
@@ -70,7 +70,6 @@ cd $RUNDIR
 NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
     --output - \
     --to gfm \
-    --output-dir $RUNDIR \
     --execute \
     -P JOB_ROW:$JOBROW \
     -P JOB_DIR:$RUNDIR \
