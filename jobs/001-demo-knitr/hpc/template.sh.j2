@@ -89,8 +89,7 @@ ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
 source $RUNDIR/.venv/bin/activate
 which python
 
-export QUARTO_PYTHON="$RUNDIR/.venv/bin/python"
-export PATH="$RUNDIR/.venv/bin:$PATH"
+export RETICULATE_PYTHON="$RUNDIR/.venv/bin/python"
 
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
