@@ -17,7 +17,7 @@ are doing.
 
 This code block prints the Python executable in order to make debugging easier.
 ```{python}
-# | label: print-python-executable
+#| label: print-python-executable
 import sys
 
 print(sys.executable)
@@ -29,7 +29,7 @@ print(sys.executable)
 Like printing the Python executable, this is mainly for debugging and should be executed at the beginning.
 
 ```{python}
-# | label: print-working-directory
+#| label: print-working-directory
 from pathlib import Path
 
 print(Path.cwd())
@@ -42,7 +42,7 @@ This is usually not the optimal place for model-specific dependencies.
 They are placed in the model section.
 
 ```{python}
-# | label: general-imports
+#| label: general-imports
 import logging
 from datetime import datetime
 import pandas as pd
@@ -57,7 +57,7 @@ The `JOB_TESTING` flag can be used within this notebook to encode decisions that
 reduce runtime to make testing easier.
 
 ```{python}
-# | tags: [parameters]
+#| tags: [parameters]
 JOB_DIR: str = "jobs/002-demo-jupyter"
 JOB_ROW: int = 0
 JOB_TESTING: bool = True
@@ -69,7 +69,7 @@ JOB_PATH = Path(JOB_DIR)
 
 
 ```{python}
-# | label: load-parameters-dataframe
+#| label: load-parameters-dataframe
 PARAMS = pd.read_csv(JOB_PATH / "params.csv").iloc[JOB_ROW, :]
 print(PARAMS)
 ```
@@ -77,7 +77,7 @@ print(PARAMS)
 ### Set identifier
 
 ```{python}
-# | label: create-identifier
+#| label: create-identifier
 now = datetime.now().strftime("%Y-%m-%d-%H%M")
 JOB_IDENTIFIER = JOB_PATH.name + "-" + f"{JOB_ROW:04d}" + "-" + now
 PARAMS["job"] = JOB_PATH.name
@@ -120,7 +120,7 @@ to be confident that your code is running as expected or to debug problems if ne
 Note that the logger will continue to append output to the log files, so if you have many runs and never clean them up, they will grow very large. So you should make sure that this does not happen.
 
 ```{python}
-# | label: initialize-logger
+#| label: initialize-logger
 handler = logging.FileHandler(filename=DIR_LOG / f"run-{JOB_ROW:04d}.log")
 handler.setLevel(logging.INFO)
 
@@ -154,7 +154,7 @@ import tensorflow_probability.substrates.jax.distributions as tfd
 ### Data generation
 
 ```{python}
-# | label: data-generation
+#| label: data-generation
 rng = np.random.default_rng(JOB_ROW)
 
 n = 100
@@ -182,7 +182,7 @@ model = lsl.Model([y])
 ### Model fitting
 
 ```{python}
-# | label: model-fitting
+#| label: model-fitting
 eb = gs.LieselMCMC(model).get_engine_builder(seed=1, num_chains=4)
 eb.add_adaptation(200)
 eb.add_posterior(100)
@@ -210,7 +210,7 @@ Just always be careful to ensure that you will be able to identify the exact
 run conditions of each job.
 
 ```{python}
-# | label: results
+#| label: results
 results = PARAMS.to_dict()
 ```
 
@@ -234,7 +234,7 @@ results.to_csv(
 ## Mark Job as Finished
 
 ```{python}
-# | label: mark-finished
+#| label: mark-finished
 if not JOB_TESTING:
     FINFILE.touch()
 ```
