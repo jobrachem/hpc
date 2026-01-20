@@ -100,6 +100,11 @@ for (dir in out_dirs) {
       {
         tmp <- subdir_path |>
           dir_ls() |>
+          # filter out anything that is not .csv
+          as_tibble() |>
+          mutate(ext = fs::path_ext(value)) |>
+          filter(ext == "csv") |>
+          pull(value) |>
           read_csv(show_col_types = FALSE)
 
         tmp
@@ -108,6 +113,11 @@ for (dir in out_dirs) {
         cat("Error. Trying more robust, but slower approach.", "\n")
         subdir_path |>
           dir_ls() |>
+          # filter out anything that is not .csv
+          as_tibble() |>
+          mutate(ext = fs::path_ext(value)) |>
+          filter(ext == "csv") |>
+          pull(value) |>
           map(function(x) {
             tmp <- read_csv(x, show_col_types = FALSE)
             tmp
