@@ -70,14 +70,17 @@ rsync -a \
 # rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
 
 
-LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
+LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
 
-ln -s "$RUNDIR/log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp$JOBROW"
+ln -s "$RUNDIR/log/run-${PADDED_JOBROW}.log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
 
 cd $RUNDIR
 
 Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R"'")'
 Rscript -e 'renv::activate(); renv::status()'
+
+Rscript -e ".libPaths()"
+
 Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/.Rprofile.R"'")'
 
 Rscript -e ".libPaths()"
@@ -95,7 +98,7 @@ NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
 
 
 # copy output back from rundir into jobdir
-rm -f "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp$JOBROW"
+unlink "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
 rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
 rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
 rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
