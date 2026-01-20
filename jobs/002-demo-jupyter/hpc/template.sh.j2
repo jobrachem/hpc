@@ -82,9 +82,3 @@ rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{
 rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
 rsync -a --remove-source-files "$RUNDIR/slurm-out/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
 rsync -a --remove-source-files "$RUNDIR/finished/"  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"
-
-# remove rundir
-# rm -rf "$RUNDIR"
-
-# mark done
-: > "{{FINISHED_DIR}}/$JOBROW"
