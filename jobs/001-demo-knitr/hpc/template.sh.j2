@@ -18,6 +18,8 @@ source ~/.dotenv
 
 cd $HOME/{{HPC_PROJECT_DIR}}
 
+export RENV_PATHS_LIBRARY="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/renv/library"
+
 micromamba activate r-4.5
 source .venv/bin/activate
 which python
@@ -62,6 +64,8 @@ rsync -a \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
 LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
+
+
 
 cd $RUNDIR
 
