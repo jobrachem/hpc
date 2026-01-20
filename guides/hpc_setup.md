@@ -234,10 +234,9 @@ necessary to install these, but in the projects I commonly work with, I found th
 dependencies to matter.
 
 ```shell
-HPC> (r-4.5) micromamba install -c conda-forge zlib r-arrow r-svglite r-mgcv r-knitr r-rmarkdown
+HPC> (r-4.5) micromamba install -c conda-forge zlib r-arrow r-svglite r-mgcv
 ```
 
-- knitr and rmarkdown are for rendering .qmd notebooks.
 - zlib may need to be installed for some other R dependencies to be installed successfully
 - mgcv is a dependency of liesel_gam, and usually included in many R installations by
   default. This is not the case for the R installed via micromamba, so we install it
