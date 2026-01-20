@@ -59,7 +59,7 @@ rsync -a \
   --exclude='hpc' \
   --exclude='slurm-err' \
   --exclude='slurm-out' \
-  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}" $RUNDIR
+  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
