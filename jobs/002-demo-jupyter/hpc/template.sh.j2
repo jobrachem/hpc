@@ -44,23 +44,44 @@ else
     exit 1
 fi
 
+RUNDIR="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}-run-$JOBROW"
+mkdir -p $RUNDIR
+mkdir -p "$RUNDIR/log"
+mkdir -p "$RUNDIR/out"
+mkdir -p "$RUNDIR/slurm-err"
+mkdir -p "$RUNDIR/slurm-out"
+mkdir -p "$RUNDIR/finished"
 
-ln -s $HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/run.$EXT {{JOBDIR}}/run-$JOBROW.$EXT
-trap "unlink {{JOBDIR}}/run-$JOBROW.$EXT" EXIT
+rsync -a \
+  --exclude='log' \
+  --exclude='out' \
+  --exclude='finished' \
+  --exclude='hpc' \
+  --exclude='slurm-err' \
+  --exclude='slurm-out' \
+  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}" $RUNDIR
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
-NO_COLOR=1 TERM=dumb quarto render {{JOBDIR}}/run-$JOBROW.$EXT \
+NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
     --output - \
     --to gfm \
     --output-dir _output/{{JOBDIR}}/$JOBROW \
     --execute \
     -P JOB_ROW:$JOBROW \
-    -P JOB_DIR:{{JOBDIR}} \
+    -P JOB_DIR:$RUNDIR \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
 
 rm -r _output/{{JOBDIR}}/$JOBROW
+
+mv $RUNDIR/out/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
+mv $RUNDIR/log/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
+mv $RUNDIR/slurm-err/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
+mv $RUNDIR/slurm-out/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
+mv $RUNDIR/finished/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"
+
+rm -r $RUNDIR
 
 # mark done
 : > "{{FINISHED_DIR}}/$JOBROW"
