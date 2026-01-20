@@ -76,7 +76,9 @@ ln -s "$RUNDIR/log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp$JOBROW"
 
 cd $RUNDIR
 
-Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R"'"); renv::activate(); renv::status()'
+Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R"'")'
+Rscript -e 'renv::activate(); renv::status()'
+Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/.Rprofile.R"'")'
 
 Rscript -e ".libPaths()"
 
