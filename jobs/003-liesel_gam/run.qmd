@@ -9,11 +9,9 @@ engine: jupyter
 
 ## Parameters code block
 
-This code block usually does not need to be touched. It just extracts the parameters
-passed to the notebook.
+This code block usually does not need to be touched. It just extracts the parameters passed to the notebook.
 
-The `JOB_TESTING` flag can be used within this notebook to encode decisions that
-reduce runtime to make testing easier.
+The `JOB_TESTING` flag can be used within this notebook to encode decisions that reduce runtime to make testing easier.
 
 ```{python}
 # | tags: [parameters]
@@ -22,23 +20,20 @@ JOB_ROW: int = 0
 JOB_TESTING: bool = True
 ```
 
-
 ## Setup
 
-Note: Variables that are general notebook settings that usually do not need to be
-changed by a user are written in CAPSLOCK. Only change them if you know what you
-are doing.
+Note: Variables that are general notebook settings that usually do not need to be changed by a user are written in CAPSLOCK. Only change them if you know what you are doing.
 
 ### Print Python executable
 
 This code block prints the Python executable in order to make debugging easier.
+
 ```{python}
 #| label: print-python-executable
 import sys
 
 print(sys.executable)
 ```
-
 
 ### Print current working directory
 
@@ -53,9 +48,7 @@ print(Path.cwd())
 
 ### Import libraries
 
-This codeblock import general utility libraries for this notebook.
-This is usually not the optimal place for model-specific dependencies.
-They are placed in the model section.
+This codeblock import general utility libraries for this notebook. This is usually not the optimal place for model-specific dependencies. They are placed in the model section.
 
 ```{python}
 #| label: general-imports
@@ -64,11 +57,9 @@ from datetime import datetime
 import pandas as pd
 ```
 
-
 ```{python}
 JOB_PATH = Path(JOB_DIR)
 ```
-
 
 ```{python}
 #| label: load-parameters-dataframe
@@ -116,8 +107,7 @@ if FINFILE.exists() and not JOB_TESTING:
 
 ### Initialize logger
 
-Initializing a logger is standard practice in any script. Logging messages help you
-to be confident that your code is running as expected or to debug problems if necessary.
+Initializing a logger is standard practice in any script. Logging messages help you to be confident that your code is running as expected or to debug problems if necessary.
 
 Note that the logger will continue to append output to the log files, so if you have many runs and never clean them up, they will grow very large. So you should make sure that this does not happen.
 
@@ -204,25 +194,12 @@ summary
 
 ### Results dictionary
 
-By initializing the results dictionary like done below, i.e. by initializing it
-from the `PARAMS` object,
-you ensure that all necessary information about this job is saved,
-most importantly the job name, the job row (the row of params.csv
-that was used), and the job identifier. It also includes all parameter settings from the row of params.csv used for this run.
-This is a little wasteful in
-terms of file size for the results objects, because, strictly speaking,
-it would be sufficient to save the job name and job row; the parameter
-values can be retrieved from params.csv with this information. Doing it
-like it is coded here saves you the effort of merging. If file size becomes
-an issue, you may want to consider switching to the more sparse representation.
-Just always be careful to ensure that you will be able to identify the exact
-run conditions of each job.
+By initializing the results dictionary like done below, i.e. by initializing it from the `PARAMS` object, you ensure that all necessary information about this job is saved, most importantly the job name, the job row (the row of params.csv that was used), and the job identifier. It also includes all parameter settings from the row of params.csv used for this run. This is a little wasteful in terms of file size for the results objects, because, strictly speaking, it would be sufficient to save the job name and job row; the parameter values can be retrieved from params.csv with this information. Doing it like it is coded here saves you the effort of merging. If file size becomes an issue, you may want to consider switching to the more sparse representation. Just always be careful to ensure that you will be able to identify the exact run conditions of each job.
 
 ```{python}
 #| label: results
 results = PARAMS.to_dict()
 ```
-
 
 ## Save Results
 
@@ -238,7 +215,6 @@ results.to_csv(
     index=False,
 )
 ```
-
 
 ## Mark Job as Finished
 
