@@ -72,7 +72,6 @@ ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
 # rsync -a "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/.Rprofile"
 # rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
 
-
 LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
 
 ln -s "$RUNDIR/log/run-${PADDED_JOBROW}.log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
