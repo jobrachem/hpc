@@ -57,8 +57,8 @@ The `JOB_TESTING` flag can be used within this notebook to encode decisions that
 reduce runtime to make testing easier.
 
 ```{python}
-#| tags: [parameters]
-JOB_DIR: str = "jobs/002-demo-jupyter"
+# | tags: [parameters]
+JOB_DIR: str = "jobs/003-liesel_gam"
 JOB_ROW: int = 0
 JOB_TESTING: bool = True
 ```
@@ -120,12 +120,20 @@ to be confident that your code is running as expected or to debug problems if ne
 Note that the logger will continue to append output to the log files, so if you have many runs and never clean them up, they will grow very large. So you should make sure that this does not happen.
 
 ```{python}
-#| label: initialize-logger
+# | label: initialize-logger
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
 handler = logging.FileHandler(filename=DIR_LOG / f"run-{JOB_ROW:04d}.log")
 handler.setLevel(logging.INFO)
+handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+handler.setFormatter(formatter)
 
 logger = logging.getLogger(str(JOB_PATH.name))
 logger.addHandler(handler)
+logger.addHandler(stream_handler)
 logger.setLevel(logging.INFO)
 ```
 
@@ -165,6 +173,10 @@ X = np.c_[np.ones_like(x), x]
 y = X @ np.r_[b0, b1] + rng.normal(size=n)
 
 df = pd.DataFrame({"x": x, "y": y})
+```
+
+```{python}
+logger.info(f"Another log message")
 ```
 
 ### Model setup
