@@ -80,9 +80,9 @@ cd $RUNDIR
 cp -f "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$RUNDIR/.Rprofile"
 
 # append renv activation (only if not already present)
-grep -q 'renv/activate\.R' "$RUNDIR/.Rprofile" || \
-  printf '\nsource("%s")\n' "$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R" >> "$RUNDIR/.Rprofile"
+printf '\nsource("%s")\n' "$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R" >> "$RUNDIR/.Rprofile"
 
+cat "$RUNDIR/.Rprofile"
 Rscript -e ".libPaths()"
 
 
