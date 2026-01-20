@@ -173,8 +173,11 @@ Note that the logger will continue to append output to the log files, so if you 
 
 ```{python}
 # | label: initialize-logger
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
 handler = logging.FileHandler(filename=DIR_LOG / f"run-{JOB_ROW:04d}.log")
 handler.setLevel(logging.INFO)
+handler.setFormatter(formatter)
 
 logger = logging.getLogger(str(JOB_PATH.name))
 logger.addHandler(handler)
