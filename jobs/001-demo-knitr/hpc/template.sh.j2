@@ -63,9 +63,15 @@ rsync -a \
   --exclude='slurm-out' \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
+rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv.lock"
+rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
+
+Rscript -e ".libPaths()"
+Rscript -e "renv::status()"
+
 LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
 
-ln -s "$RUNDIR/log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/$JOBROW"
+ln -s "$RUNDIR/log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp$JOBROW"
 
 cd $RUNDIR
 
@@ -80,9 +86,11 @@ NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
 
+
 # copy output back from rundir into jobdir
-rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
+rm -f "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp$JOBROW"
 rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
+rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
 rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
 rsync -a --remove-source-files "$RUNDIR/slurm-out/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
 rsync -a --remove-source-files "$RUNDIR/finished/"  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"
