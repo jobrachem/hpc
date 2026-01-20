@@ -188,10 +188,6 @@ logger.setLevel(logging.INFO)
 logger.info(f"Job started: \t{JOB_IDENTIFIER} ")
 ```
 
-```{python}
-raise Exception("test exception")
-```
-
 
 ## Model Code
 
