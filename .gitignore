@@ -6,7 +6,6 @@ _output/
 .venv/
 .quarto/
 /.quarto/
-out/
 data/
 .vscode
 .env
