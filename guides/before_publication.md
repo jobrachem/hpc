@@ -6,3 +6,11 @@
 4. Test the analysis scripts: Do they run without error in a fresh environment? This, too, is absolutely essential.
 5. Remove the `data/` directory from the `.gitignore` and commit the data necessary to reproduce your analyses in the `analysis/` to the repository. 
 6. Also make the input data available, if legally possible. If the file size is not too large, you can commit the input data to the repository, too. Otherwise, you can make data available via Zenodo (https://zenodo.org).
+7. Please give me credit, and cite and link to this template repository as follows in your repository `README.md`:
+
+```md
+## Attribution
+
+This repository was created based on the "Template for Reproducible Experimentation", Johannes Brachem (2026): https://github.com/jobrachem/hpc.
+```
+
