@@ -62,7 +62,7 @@ rsync -a \
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv" $RUNDIR/renv
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
 
-LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
+LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/captured-run-${PADDED_JOBROW}.log"
 
 cd $RUNDIR
 

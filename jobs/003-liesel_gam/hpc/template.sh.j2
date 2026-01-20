@@ -62,7 +62,7 @@ rsync -a \
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv" $RUNDIR/renv
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
 
-LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
+LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/captured-run-${PADDED_JOBROW}.log"
 
 cd $RUNDIR
 
@@ -98,7 +98,6 @@ NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
 
 
 # copy output back from rundir into jobdir
-unlink "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
 rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
 rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
 rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
