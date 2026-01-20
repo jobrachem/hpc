@@ -65,6 +65,9 @@ rsync -a \
   --exclude='slurm-out' \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
+ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv" $RUNDIR/renv
+ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
+
 # rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv.lock"
 # rsync -a "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/.Rprofile"
 # rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
