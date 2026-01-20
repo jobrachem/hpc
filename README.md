@@ -14,11 +14,11 @@ as a code archive accompanying publications.
    or `run.ipynb` Jupyter notebooks. The parameters for each job run are defined
    in a `params.csv` file, where each row defines the parameters for one run of 
    `run.qmd`.
-- `data/in/` contains input data.
+- `data/in/` contains input data (if available).
 - `data/out/` contains output data, collected from the outputs of the individual jobs.
 - `analysis/` contains R scripts for analysis the data in `data/out`.
 - `analysis/out/` contains the output of data analysis, e.g., figures and tables.
-- `scipts/` contains general helper scripts for running jobs, submitting jobs to a 
+- `scripts/` contains general helper scripts for running jobs, submitting jobs to a 
    cluster, download data, and gather data.
 
 ## How to reproduce analyses
