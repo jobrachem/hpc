@@ -65,7 +65,7 @@ rsync -a \
 
 LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
 
-
+ln -s "$RUNDIR/log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/$JOBROW"
 
 cd $RUNDIR
 
