@@ -234,9 +234,10 @@ necessary to install these, but in the projects I commonly work with, I found th
 dependencies to matter.
 
 ```shell
-HPC> (r-4.5) micromamba install -c conda-forge zlib r-arrow r-svglite r-mgcv
+HPC> (r-4.5) micromamba install -c conda-forge zlib r-arrow r-svglite r-mgcv r-knitr r-rmarkdown
 ```
 
+- knitr and rmarkdown are for rendering .qmd notebooks.
 - zlib may need to be installed for some other R dependencies to be installed successfully
 - mgcv is a dependency of liesel_gam, and usually included in many R installations by
   default. This is not the case for the R installed via micromamba, so we install it
@@ -252,7 +253,9 @@ Generally, this repository is set up to manage R packages via
 [`renv`](https://rstudio.github.io/renv/) for 
 environment isolation, reproducibility and convenience. This is nice and works almost
 always, but for some more complex dependencies, additional steps may be required. The R
-package `arrow` mentioned above is such a case. Installation via `renv` fails. So, as a
+package `arrow` mentioned above is such a case. Also, renv may not discover all dependencies, I found it sometimes misses knitr and rmarkdown, which are implicitly depended on to render the .qmd notebooks.
+
+ Installation via `renv` fails. So, as a
 fix, we install it via micromamba as described above. To make this installation 
 available to the renv environment in our jobs, we need to add it to the 
 `.libPaths()` recognized by R. This works as follows:
