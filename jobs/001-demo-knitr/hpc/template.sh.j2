@@ -89,6 +89,7 @@ ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
 source $RUNDIR/.venv/bin/activate
 which python
 
+export RENV_PYTHON="$RUNDIR/.venv/bin/python"
 export RETICULATE_PYTHON="$RUNDIR/.venv/bin/python"
 
 
