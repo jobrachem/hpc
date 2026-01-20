@@ -6,7 +6,8 @@ _output/
 .venv/
 .quarto/
 /.quarto/
-data/
+data/in
+data/out
 .vscode
 .env
 */*/hpc/sbatch.sh
