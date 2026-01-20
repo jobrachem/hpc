@@ -1,3 +1,30 @@
+# This script will gather data from all job directories in JOBS_DIRECTORY
+# It will aim to produce one .csv file for each subdirectory of out/ for each job.
+# Say, your output directories are structured like this:
+
+# jobs/
+#   001-demo-knitr/
+#     out/
+#       results/
+#         results-row0000.csv
+#         results-row0001.csv
+#   002-demo-jupyter/
+#     out/
+#       results/
+#         results-row0000.csv
+#         results-row0001.csv
+
+# Then this script will collect all data in the /out/results/ directories
+# into job-wise dataframes that are placed here:
+
+# data/out/jobs/results/
+#    results-001-demo-knitr.csv
+#    results-002-demo-jupyter.csv
+
+# So there will be one output .csv for each output type and each job. The output type
+# is given by the name of the subdirectory of the out/ directory in each job.
+# So in this case it is "results".
+
 library(tidyverse)
 library(fs)
 
@@ -90,7 +117,9 @@ for (dir in out_dirs) {
           bind_rows()
       }
     )
-    out[[subdir]][[i]] <- df
+
+    jobname <- jobsdirs[i] |> fs::path_file()
+    out[[subdir]][[jobname]] <- df
 
     i <- i + 1
   }
@@ -102,24 +131,38 @@ out |> names()
 # ---- Save outputs ----
 # ..............................................................................
 
-for (i in seq_along(out)) {
-  out_df <- out[[i]] |> bind_rows()
-  df_name <- paste0(names(out)[[i]], ".csv")
-  file_name <- path(data_dir, df_name)
-  if (fs::file_exists(file_name)) {
-    choice <- utils::menu(
-      c("Yes", "No"),
-      title = str_glue("{file_name} exists. Do you want to override it?")
-    )
+choice <- utils::menu(
+  c("Yes", "No"),
+  title = str_glue("Do you want to OVERWRITE existing data, if it exists?")
+)
 
-    if (choice == 1) {
-      print("Writing data.")
-      write_csv(out_df, file_name)
+cat("\n\nStarting export", "\n")
+for (i in seq_along(out)) {
+  out_dfs_subdir <- out[[i]]
+  this_data_type_dir <- path(data_dir, names(out)[i])
+  this_data_type_dir |> dir_create()
+
+  for (j in seq_along(out_dfs_subdir)) {
+    df_this_job <- out_dfs_subdir[[j]]
+    this_job_name <- names(out_dfs_subdir)[j]
+    this_df_file_name <- paste0(names(out)[[i]], "-", this_job_name, ".csv")
+
+    cat("Job: \t", this_job_name, "\ndf: \t", this_df_file_name, "\n")
+
+    this_df_file_name <- path(this_data_type_dir, this_df_file_name)
+
+    if (fs::file_exists(this_df_file_name)) {
+      if (choice == 1) {
+        cat("\t Overwriting data.")
+        write_csv(df_this_job, this_df_file_name)
+      } else {
+        cat("\t File exists. Did not write data.")
+      }
     } else {
-      print("Did not write data.")
+      cat("\t Writing data.")
+      write_csv(df_this_job, this_df_file_name)
     }
-  } else {
-    print("Writing data.")
-    write_csv(out_df, file_name)
+
+    cat("\n\n")
   }
 }

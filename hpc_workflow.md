@@ -67,7 +67,8 @@ the demo job `jobs/001-demo-knitr` as an example.
     - After downloading, the data is still scattered in multiple super-short `.csv`
        files in `jobs/001-demo-knitr/out`, and possibly over multiple jobs. We want to
        collect them into a few larger files.
-    - Run the code in `scripts/gather_out.R` in an interactive R session. This will
+    - Run the code in `scripts/gather_out_greedy.R` or `scripts/gather_out_lazy.R` 
+       in an interactive R session. This will
        collect the data from all jobs and runs and place them in `data/out/jobs/` as 
        aggregated .csv files.
 8. **Analyse data**
