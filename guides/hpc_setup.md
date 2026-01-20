@@ -219,7 +219,7 @@ HPC> micromamba create -n r-4.5 -c conda-forge r-base=4.5
 
 **Note that currently, this repository hard-codes the name of the R environment to `r-4.5`.**
 You can use a different name. For that, you mainly need to change the line 
-`micromamba activate r-4.5` in the `template.sh.j2` files to use the correct name.
+`micromamba activate r-4.5` in the `template.sh.j2` and `submit.py` files to use the correct name.
 
 Next, activate this environment:
 
