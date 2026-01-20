@@ -13,7 +13,7 @@ source ~/.dotenv
 cd {hpc_project_dir}
 git pull
 
-conda activate r-4.5
+micromamba activate r-4.5
 source .venv/bin/activate
 Rscript -e 'renv::status()'
 Rscript -e 'renv::restore()'
