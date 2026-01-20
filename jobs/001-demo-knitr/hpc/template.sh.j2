@@ -19,12 +19,12 @@ source ~/.dotenv
 cd $HOME/{{HPC_PROJECT_DIR}}
 
 micromamba activate r-4.5
-source .venv/bin/activate
-which python
+# source .venv/bin/activate
+# which python
 
-Rscript -e "renv::activate()"
-Rscript -e ".libPaths()"
-Rscript -e "renv::status()"
+# Rscript -e "renv::activate()"
+# Rscript -e ".libPaths()"
+# Rscript -e "renv::status()"
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
@@ -82,9 +82,7 @@ cd $RUNDIR
 cp -f "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$RUNDIR/.Rprofile"
 
 # append renv activation (only if not already present)
-printf '\nsource("%s")\n' "/mnt/vast-standard/home/brachem1/u18549/{{HPC_PROJECT_DIR}}/renv/activate.R" >> "$RUNDIR/.Rprofile"
-
-cat "$RUNDIR/.Rprofile"
+# cat "$RUNDIR/.Rprofile"
 Rscript -e ".libPaths()"
 
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
