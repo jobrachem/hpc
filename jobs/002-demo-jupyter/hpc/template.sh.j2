@@ -57,16 +57,19 @@ rsync -a \
   --exclude='out' \
   --exclude='finished' \
   --exclude='hpc' \
+  --exclude='.quarto' \
   --exclude='slurm-err' \
   --exclude='slurm-out' \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
+
+cd $RUNDIR
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
 NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
     --output - \
     --to gfm \
-    --output-dir _output/{{JOBDIR}}/$JOBROW \
+    --output-dir $RUNDIR \
     --execute \
     -P JOB_ROW:$JOBROW \
     -P JOB_DIR:$RUNDIR \
@@ -75,13 +78,13 @@ NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
 
 rm -r _output/{{JOBDIR}}/$JOBROW
 
-mv $RUNDIR/out/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
-mv $RUNDIR/log/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
-mv $RUNDIR/slurm-err/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
-mv $RUNDIR/slurm-out/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
-mv $RUNDIR/finished/* "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"
+rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
+rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
+rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
+rsync -a --remove-source-files "$RUNDIR/slurm-out/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
+rsync -a --remove-source-files "$RUNDIR/finished/"  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"
 
-rm -r $RUNDIR
+rm -rf "$RUNDIR"
 
 # mark done
 : > "{{FINISHED_DIR}}/$JOBROW"
