@@ -19,12 +19,6 @@ source ~/.dotenv
 cd $HOME/{{HPC_PROJECT_DIR}}
 
 micromamba activate r-4.5
-# source .venv/bin/activate
-# which python
-
-# Rscript -e "renv::activate()"
-# Rscript -e ".libPaths()"
-# Rscript -e "renv::status()"
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
@@ -68,10 +62,6 @@ rsync -a \
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv" $RUNDIR/renv
 ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
 
-# rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv.lock"
-# rsync -a "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/.Rprofile"
-# rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
-
 LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
 
 ln -s "$RUNDIR/log/run-${PADDED_JOBROW}.log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
@@ -89,7 +79,10 @@ Rscript -e ".libPaths()"
 source $HOME/{{HPC_PROJECT_DIR}}/.venv/bin/activate
 which python
 python --version
+pip list
 
+# these lines are important for the correct python environment if knitr is being
+# used as the engine in quarto
 export RENV_PYTHON="$HOME/{{HPC_PROJECT_DIR}}/.venv/bin/python"
 export RETICULATE_PYTHON="$HOME/{{HPC_PROJECT_DIR}}/.venv/bin/python"
 

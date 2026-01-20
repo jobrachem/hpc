@@ -6,7 +6,7 @@ library(tidyverse)
 # Just one rule: Each independent model run should be defined
 # by one row of the `params` dataframe.
 
-data_seed <- 1:200
+data_seed <- 1:2
 data_type <- c("abc")
 nobs <- c(2000, 10000, 20000)
 

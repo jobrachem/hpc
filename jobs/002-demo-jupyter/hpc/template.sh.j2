@@ -19,8 +19,6 @@ source ~/.dotenv
 cd $HOME/{{HPC_PROJECT_DIR}}
 
 micromamba activate r-4.5
-source .venv/bin/activate
-which python
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
@@ -61,9 +59,33 @@ rsync -a \
   --exclude='slurm-out' \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
-LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
+ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv" $RUNDIR/renv
+ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
+
+LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
+
+ln -s "$RUNDIR/log/run-${PADDED_JOBROW}.log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
 
 cd $RUNDIR
+
+# copy .Rprofile into rundir
+cp -f "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$RUNDIR/.Rprofile"
+
+# append renv activation (only if not already present)
+# cat "$RUNDIR/.Rprofile"
+Rscript -e ".libPaths()"
+
+# ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
+source $HOME/{{HPC_PROJECT_DIR}}/.venv/bin/activate
+which python
+python --version
+pip list
+
+# these lines are important for the correct python environment if knitr is being
+# used as the engine in quarto
+export RENV_PYTHON="$HOME/{{HPC_PROJECT_DIR}}/.venv/bin/python"
+export RETICULATE_PYTHON="$HOME/{{HPC_PROJECT_DIR}}/.venv/bin/python"
+
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
@@ -76,9 +98,11 @@ NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
 
+
 # copy output back from rundir into jobdir
-rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
+unlink "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
 rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
+rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
 rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
 rsync -a --remove-source-files "$RUNDIR/slurm-out/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
 rsync -a --remove-source-files "$RUNDIR/finished/"  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"

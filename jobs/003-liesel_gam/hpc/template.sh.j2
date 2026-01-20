@@ -11,7 +11,7 @@
 
 # -e: Exit the script immediately if any command returns a non-zero exit status.
 # -o pipefail: A pipeline fails if any command in the pipeline fails, not just the last one.
-set -eo pipefail
+# set -eo pipefail
 
 source ~/.bashrc
 source ~/.dotenv
@@ -19,13 +19,10 @@ source ~/.dotenv
 cd $HOME/{{HPC_PROJECT_DIR}}
 
 micromamba activate r-4.5
-source .venv/bin/activate
-which python
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
 PADDED_JOBROW=$(printf "%04d" "$JOBROW")
-LOGFILE="{{LOG_DIR}}/run-${PADDED_JOBROW}-captured.log"
 
 # Optional: skip if already finished
 if [ -e "{{FINISHED_DIR}}/$JOBROW" ]; then
@@ -44,22 +41,68 @@ else
     exit 1
 fi
 
-ln -s $HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/run.$EXT {{JOBDIR}}/run-$JOBROW.$EXT
-trap "unlink {{JOBDIR}}/run-$JOBROW.$EXT" EXIT
+RUNDIR="$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/{{JOBDIR}}-run-$JOBROW-tmp__"
+mkdir -p $RUNDIR
+mkdir -p "$RUNDIR/log"
+mkdir -p "$RUNDIR/out"
+mkdir -p "$RUNDIR/slurm-err"
+mkdir -p "$RUNDIR/slurm-out"
+mkdir -p "$RUNDIR/finished"
+
+rsync -a \
+  --exclude='log' \
+  --exclude='out' \
+  --exclude='finished' \
+  --exclude='hpc' \
+  --exclude='.quarto' \
+  --exclude='slurm-err' \
+  --exclude='slurm-out' \
+  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
+
+ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv" $RUNDIR/renv
+ln -s "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" $RUNDIR/renv.lock
+
+LOGFILE="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/run-${PADDED_JOBROW}-captured.log"
+
+ln -s "$RUNDIR/log/run-${PADDED_JOBROW}.log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
+
+cd $RUNDIR
+
+# copy .Rprofile into rundir
+cp -f "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$RUNDIR/.Rprofile"
+
+# append renv activation (only if not already present)
+# cat "$RUNDIR/.Rprofile"
+Rscript -e ".libPaths()"
+
+# ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
+source $HOME/{{HPC_PROJECT_DIR}}/.venv/bin/activate
+which python
+python --version
+pip list
+
+# these lines are important for the correct python environment if knitr is being
+# used as the engine in quarto
+export RENV_PYTHON="$HOME/{{HPC_PROJECT_DIR}}/.venv/bin/python"
+export RETICULATE_PYTHON="$HOME/{{HPC_PROJECT_DIR}}/.venv/bin/python"
+
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
-NO_COLOR=1 TERM=dumb quarto render {{JOBDIR}}/run-$JOBROW.$EXT \
+NO_COLOR=1 TERM=dumb quarto render $RUNDIR/run.$EXT \
     --output - \
     --to gfm \
-    --output-dir _output/{{JOBDIR}}/$JOBROW \
     --execute \
     -P JOB_ROW:$JOBROW \
-    -P JOB_DIR:{{JOBDIR}} \
+    -P JOB_DIR:$RUNDIR \
     -P JOB_TESTING:False \
     >> $LOGFILE 2>&1
 
-rm -r _output/{{JOBDIR}}/$JOBROW
 
-# mark done
-: > "{{FINISHED_DIR}}/$JOBROW"
+# copy output back from rundir into jobdir
+unlink "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp-run-${PADDED_JOBROW}.log"
+rsync -a --remove-source-files "$RUNDIR/log/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/"
+rsync -a --remove-source-files "$RUNDIR/out/"       "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/out/"
+rsync -a --remove-source-files "$RUNDIR/slurm-err/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-err/"
+rsync -a --remove-source-files "$RUNDIR/slurm-out/" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/slurm-out/"
+rsync -a --remove-source-files "$RUNDIR/finished/"  "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/finished/"
