@@ -18,11 +18,13 @@ source ~/.dotenv
 
 cd $HOME/{{HPC_PROJECT_DIR}}
 
-export RENV_PATHS_LIBRARY="$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/renv/library"
-
 micromamba activate r-4.5
 source .venv/bin/activate
 which python
+
+Rscript -e "renv::activate()"
+Rscript -e ".libPaths()"
+Rscript -e "renv::status()"
 
 IDX=$SLURM_ARRAY_TASK_ID
 JOBROW=$(printf '%s\n' "{{CONDITION_INDICES}}" | sed -n "${IDX}p")
@@ -63,17 +65,19 @@ rsync -a \
   --exclude='slurm-out' \
   "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/" "$RUNDIR/"
 
-rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv.lock"
-rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
+# rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv.lock" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv.lock"
+# rsync -a "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/.Rprofile"
+# rsync -a "$HOME/{{HPC_PROJECT_DIR}}/renv" "$LOCAL_TMPDIR/{{HPC_PROJECT_DIR}}/renv"
 
-Rscript -e ".libPaths()"
-Rscript -e "renv::status()"
 
 LOGFILE="$RUNDIR/log/run-${PADDED_JOBROW}-captured.log"
 
 ln -s "$RUNDIR/log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR}}/log/tmp$JOBROW"
 
 cd $RUNDIR
+
+Rscript -e ".libPaths()"
+Rscript -e "renv::status()"
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
