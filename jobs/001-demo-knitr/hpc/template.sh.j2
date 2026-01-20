@@ -85,13 +85,13 @@ cp -f "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$RUNDIR/.Rprofile"
 # cat "$RUNDIR/.Rprofile"
 Rscript -e ".libPaths()"
 
-ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
-source $RUNDIR/.venv/bin/activate
+# ln -s "$HOME/{{HPC_PROJECT_DIR}}/.venv" $RUNDIR/.venv
+source $HOME/{{HPC_PROJECT_DIR}}/.venv/bin/activate
 which python
 python --version
 
-export RENV_PYTHON="$RUNDIR/.venv/bin/python"
-export RETICULATE_PYTHON="$RUNDIR/.venv/bin/python"
+# export RENV_PYTHON="$RUNDIR/.venv/bin/python"
+# export RETICULATE_PYTHON="$RUNDIR/.venv/bin/python"
 
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
