@@ -76,14 +76,15 @@ ln -s "$RUNDIR/log/run-${PADDED_JOBROW}.log" "$HOME/{{HPC_PROJECT_DIR}}/{{JOBDIR
 
 cd $RUNDIR
 
-Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R"'")'
-Rscript -e 'renv::activate(); renv::status()'
+# copy .Rprofile into rundir
+cp -f "$HOME/{{HPC_PROJECT_DIR}}/.Rprofile" "$RUNDIR/.Rprofile"
+
+# append renv activation (only if not already present)
+grep -q 'renv/activate\.R' "$RUNDIR/.Rprofile" || \
+  printf '\nsource("%s")\n' "$HOME/{{HPC_PROJECT_DIR}}/renv/activate.R" >> "$RUNDIR/.Rprofile"
 
 Rscript -e ".libPaths()"
 
-Rscript -e 'source("'"$HOME/{{HPC_PROJECT_DIR}}/.Rprofile.R"'")'
-
-Rscript -e ".libPaths()"
 
 # NO_COLOR and TERM=dumb are just so that the captured _output
 # from quarto is not rendered weirdly in the log file
