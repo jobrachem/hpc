@@ -7,11 +7,27 @@ format:
 engine: jupyter
 ---
 
+## Parameters code block
+
+This code block usually does not need to be touched. It just extracts the parameters
+passed to the notebook.
+
+The `JOB_TESTING` flag can be used within this notebook to encode decisions that
+reduce runtime to make testing easier.
+
+```{python}
+# | tags: [parameters]
+JOB_DIR: str = "jobs/003-liesel_gam"
+JOB_ROW: int = 0
+JOB_TESTING: bool = True
+```
+
+
+## Setup
+
 Note: Variables that are general notebook settings that usually do not need to be
 changed by a user are written in CAPSLOCK. Only change them if you know what you
 are doing.
-
-## Setup
 
 ### Print Python executable
 
@@ -48,20 +64,6 @@ from datetime import datetime
 import pandas as pd
 ```
 
-### Parameters code block
-
-This code block usually does not need to be touched. It just extracts the parameters
-passed to the notebook.
-
-The `JOB_TESTING` flag can be used within this notebook to encode decisions that
-reduce runtime to make testing easier.
-
-```{python}
-# | tags: [parameters]
-JOB_DIR: str = "jobs/003-liesel_gam"
-JOB_ROW: int = 0
-JOB_TESTING: bool = True
-```
 
 ```{python}
 JOB_PATH = Path(JOB_DIR)
@@ -189,7 +191,7 @@ model = lsl.Model([y])
 ### Model fitting
 
 ```{python}
-#| label: model-fitting
+# | label: model-fitting
 eb = gs.LieselMCMC(model).get_engine_builder(seed=1, num_chains=4)
 eb.add_adaptation(200)
 eb.add_posterior(100)
@@ -241,7 +243,7 @@ results.to_csv(
 ## Mark Job as Finished
 
 ```{python}
-#| label: mark-finished
+# | label: mark-finished
 if not JOB_TESTING:
     FINFILE.touch()
 ```
