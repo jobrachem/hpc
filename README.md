@@ -16,7 +16,7 @@ as a code archive accompanying publications.
    `run.qmd`.
 - `data/in/` contains input data (if available).
 - `data/out/` contains output data, collected from the outputs of the individual jobs.
-- `analysis/` contains R scripts for analysis the data in `data/out`.
+- `analysis/` contains R or Python scripts and notebooks for analysis of the data in `data/out`.
 - `analysis/out/` contains the output of data analysis, e.g., figures and tables.
 - `scripts/` contains general helper scripts for running jobs, submitting jobs to a 
    cluster, download data, and gather data.
