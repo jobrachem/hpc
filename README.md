@@ -122,9 +122,11 @@ python scripts/submit_all.py
 python scripts/download_all.py
 ```
 
-4. After download, gather the data by running the R code in `scripts/gather_out_greedy.R` (one .csv per output type; fewer files) or `scripts/gather_out_lazy.R` (one .csv per job and output type; more files) in an interactive R session. Whether you need to run the greedy or the lazy script depends on the data format expected by the analysis scripts.
+### Gather data
 
-5. Now the data is in a state that serves as the starting point for the R scripts in `analysis/`. 
+Gather the data produced by the individual jobs by running the R code in `scripts/gather_out_greedy.R` (one .csv per output type; fewer files) or `scripts/gather_out_lazy.R` (one .csv per job and output type; more files) in an interactive R session. Whether you need to run the greedy or the lazy script depends on the data format expected by the analysis scripts.
+
+Now the data is in a state that serves as the starting point for the R scripts in `analysis/`. 
 
 
 ## Attribution
